@@ -390,9 +390,9 @@ displayBuffer(Buffer *buf, int mode)
     if (showLineNum) {
 	if (buf->lastLine && buf->lastLine->real_linenumber > 0)
 	    buf->rootX = (int)(log(buf->lastLine->real_linenumber + 0.1)
-			       / log(10)) + 2;
-	if (buf->rootX < 5)
-	    buf->rootX = 5;
+			       / log(10)) + 2 + LNUM_GAP;
+	if (buf->rootX < 5 + LNUM_GAP)
+	    buf->rootX = 5 + LNUM_GAP;
 	if (buf->rootX > COLS)
 	    buf->rootX = COLS;
     }
@@ -701,15 +701,16 @@ redrawLine(Buffer *buf, Line *l, int i)
 	if (!buf->rootX) {
 	    if (buf->lastLine->real_linenumber > 0)
 		buf->rootX = (int)(log(buf->lastLine->real_linenumber + 0.1)
-				   / log(10)) + 2;
-	    if (buf->rootX < 5)
-		buf->rootX = 5;
+				   / log(10)) + 2 + LNUM_GAP;
+	    if (buf->rootX < 5 + LNUM_GAP) 
+		buf->rootX = 5 + LNUM_GAP;
 	    if (buf->rootX > COLS)
 		buf->rootX = COLS;
 	    buf->COLS = COLS - buf->rootX;
 	}
 	if (l->real_linenumber && !l->bpos)
-	    sprintf(tmp, "%*ld:", buf->rootX - 1, l->real_linenumber);
+	    sprintf(tmp, "%*ld:%*s", buf->rootX - 1 - LNUM_GAP, 
+		    l->real_linenumber, LNUM_GAP, "");
 	else
 	    sprintf(tmp, "%*s ", buf->rootX - 1, "");
 	addstr(tmp);

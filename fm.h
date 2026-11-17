@@ -9,7 +9,8 @@
 
 #ifndef FM_H
 #define FM_H
-
+#define LNUM_GAP 2
+#define RIGHT_MARGIN 10
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE		/* strcasestr() */
@@ -585,7 +586,7 @@ typedef struct _DownloadList {
 #define FONTSTAT_SIZE 7
 #define FONTSTAT_MAX 127
 
-#define _INIT_BUFFER_WIDTH (COLS - (showLineNum ? 6 : 1))
+#define _INIT_BUFFER_WIDTH (COLS - (showLineNum ? 6 + LNUM_GAP : 1) - RIGHT_MARGIN)
 #define INIT_BUFFER_WIDTH ((_INIT_BUFFER_WIDTH > 0) ? _INIT_BUFFER_WIDTH : 0)
 #define FOLD_BUFFER_WIDTH (FoldLine ? (INIT_BUFFER_WIDTH + 1) : -1)
 
